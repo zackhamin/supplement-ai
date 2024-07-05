@@ -1,17 +1,17 @@
 "use client";
 
 import { useState } from "react";
-import axios from "axios";
+import axios, { all } from "axios";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 const UploadPage = () => {
-  const [title, setTitle] = useState("");
-  const [isbn, setIsbn] = useState("");
-  const [pageNumber, setPageNumber] = useState("");
-  const [pageText, setPageText] = useState("");
+  const [ingredients, setIngredients] = useState("");
+  const [allergies, setAllergies] = useState("");
+  const [ailments, setAilments] = useState("");
+  const [product, setProduct] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState("");
 
@@ -22,10 +22,10 @@ const UploadPage = () => {
 
     try {
       const response = await axios.post("/api/upload", {
-        title,
-        isbn,
-        pageNumber,
-        pageText,
+        ingredients,
+        allergies,
+        ailments,
+        product,
       });
       setMessage("Successfully uploaded and stored the vector!");
       console.log(response.data);
@@ -49,13 +49,13 @@ const UploadPage = () => {
             htmlFor="title"
             className="block text-sm font-medium text-gray-700"
           >
-            Title:
+            Product:
           </label>
           <Input
             id="title"
             type="text"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            value={product}
+            onChange={(e) => setProduct(e.target.value)}
             required
             className="mt-1"
           />
@@ -65,13 +65,29 @@ const UploadPage = () => {
             htmlFor="isbn"
             className="block text-sm font-medium text-gray-700"
           >
-            ISBN:
+            Ingredients:
           </label>
           <Input
             id="isbn"
             type="text"
-            value={isbn}
-            onChange={(e) => setIsbn(e.target.value)}
+            value={ingredients}
+            onChange={(e) => setIngredients(e.target.value)}
+            required
+            className="mt-1"
+          />
+        </div>
+        <div>
+          <label
+            htmlFor="isbn"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Ailments:
+          </label>
+          <Input
+            id="isbn"
+            type="text"
+            value={ailments}
+            onChange={(e) => setAilments(e.target.value)}
             required
             className="mt-1"
           />
@@ -81,15 +97,15 @@ const UploadPage = () => {
             htmlFor="pageText"
             className="block text-sm font-medium text-gray-700"
           >
-            Page Text:
+            Allergies
           </label>
-          <Textarea
-            id="pageText"
-            value={pageText}
-            onChange={(e) => setPageText(e.target.value)}
+          <Input
+            id="allergies"
+            type="text"
+            value={allergies}
+            onChange={(e) => setAllergies(e.target.value)}
             required
             className="mt-1"
-            rows={5}
           />
         </div>
         <Button type="submit" disabled={isLoading}>

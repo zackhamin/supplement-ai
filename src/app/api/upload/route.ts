@@ -7,9 +7,9 @@ const pinecone = new Pinecone({
 });
 
 export async function POST(request: Request) {
-  const { title, isbn, pageText } = await request.json();
+  const { product, ailments, allergies, ingredients } = await request.json();
 
-  if (!title || !isbn || !pageText) {
+  if (!product || !ailments || !allergies || !ingredients) {
     return NextResponse.json(
       { message: "All fields are required" },
       { status: 400 }
@@ -18,15 +18,15 @@ export async function POST(request: Request) {
 
   try {
     // Generate vector from page text
-    const vector = await textToVector(pageText);
+    const vector = await textToVector(ailments);
 
     // Store in Pinecone
     const index = pinecone.Index(process.env.PINECONE_INDEX_NAME!);
     await index.upsert([
       {
-        id: `${isbn}`,
+        id: `${product}`,
         values: vector,
-        metadata: { title, isbn, Page: pageText },
+        metadata: { ailments, allergies, ingredients },
       },
     ]);
 
