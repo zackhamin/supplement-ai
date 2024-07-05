@@ -63,6 +63,9 @@ export default function Home() {
             ))}
           </ul>
         </div>
+        <h2 className="text-2xl font-semibold mb-2 text-red-500">
+          NOT MEDICAL ADVICE
+        </h2>
         <div className="flex space-x-4 mb-4">
           <Input
             type="text"
